@@ -1,0 +1,16 @@
+{
+  "name": "@videostudio/shared",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./constants/camera": "./src/constants/camera.js",
+    "./constants/styles": "./src/constants/styles.js",
+    "./constants/aspect": "./src/constants/aspect.js",
+    "./schemas/video": "./src/schemas/video.schema.js"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}

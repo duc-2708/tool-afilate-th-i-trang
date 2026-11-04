@@ -1,0 +1,15 @@
+node_modules/
+dist/
+build/
+storage/
+*.sqlite
+*.sqlite-journal
+*.log
+.env
+*.mp4
+*.webm
+*.png
+*.jpg
+package-lock.json
+coverage/
+release/
