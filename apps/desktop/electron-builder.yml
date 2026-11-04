@@ -1,0 +1,8 @@
+# @purpose: cấu hình build và đóng gói bộ cài đặt electron desktop
+
+appId: com.videostudio.app
+productName: VideoStudio
+directories:
+  output: release
+win:
+  target: nsis

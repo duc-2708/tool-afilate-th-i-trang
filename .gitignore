@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+storage/
+*.sqlite
+*.sqlite-journal
+*.log
+.env
+*.mp4
+*.webm
+*.png
+*.jpg
+coverage/
+release/
+.DS_Store
+Thumbs.db

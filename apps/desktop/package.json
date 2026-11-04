@@ -1,0 +1,9 @@
+{
+  "name": "@videostudio/desktop",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node -e \"console.log('Desktop stage 2 skeleton')\""
+  }
+}
