@@ -11,7 +11,11 @@ export const createVideoSchema = z.object({
     .min(3, 'Prompt tối thiểu 3 ký tự')
     .max(1000, 'Prompt không vượt quá 1000 ký tự'),
   mode: z.enum(['text', 'image']).default('text'),
-  imageUrl: z.string().url('URL ảnh không hợp lệ').optional().or(z.literal('')),
+  imageUrl: z
+    .string()
+    .max(2048, 'Đường dẫn ảnh quá dài')
+    .optional()
+    .or(z.literal('')),
   camera: z.enum(CAMERA_IDS).default('static'),
   style: z.enum(STYLE_IDS).default('studio_clean'),
   aspect: z.enum(ASPECT_VALUES).default('9:16'),
@@ -23,4 +27,9 @@ export const createVideoSchema = z.object({
 export const videoQuerySchema = z.object({
   limit: z.coerce.number().min(1).max(100).default(20),
   offset: z.coerce.number().min(0).default(0),
+  status: z.enum(['pending', 'processing', 'completed', 'failed']).optional(),
+});
+
+export const videoIdSchema = z.object({
+  id: z.string().min(1, 'ID không được để trống'),
 });

@@ -4,15 +4,19 @@
     <div class="prompt-header">
       <label>Mô tả chi tiết video:</label>
       <button type="button" class="btn-sample" @click="$emit('open-library')">
-        💡 Xem mẫu gợi ý
+        💡 Thư viện prompt mẫu
       </button>
     </div>
-    <textarea
-      :value="modelValue"
-      placeholder="Ví dụ: Người mẫu bước đi tự tin trên sàn diễn runway, diện đầm lụa dài quét đất..."
-      rows="4"
-      @input="$emit('update:modelValue', $event.target.value)"
-    ></textarea>
+    <div class="textarea-wrapper">
+      <textarea
+        :value="modelValue"
+        placeholder="Ví dụ: Người mẫu bước đi tự tin trên sàn diễn runway, diện đầm lụa satin đỏ quét sàn..."
+        rows="4"
+        maxlength="1000"
+        @input="$emit('update:modelValue', $event.target.value)"
+      ></textarea>
+      <div class="char-counter">{{ (modelValue || '').length }}/1000</div>
+    </div>
   </div>
 </template>
 
@@ -45,6 +49,15 @@ label {
   color: #38bdf8;
   font-size: 0.85rem;
   cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.btn-sample:hover {
+  color: #7dd3fc;
+  text-decoration: underline;
+}
+.textarea-wrapper {
+  position: relative;
 }
 textarea {
   width: 100%;
@@ -53,11 +66,22 @@ textarea {
   border-radius: 6px;
   color: #f8fafc;
   padding: 0.75rem;
+  padding-bottom: 1.5rem;
   font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.4;
   resize: vertical;
 }
 textarea:focus {
   outline: none;
   border-color: #0284c7;
+}
+.char-counter {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+  font-size: 0.75rem;
+  color: #64748b;
+  pointer-events: none;
 }
 </style>

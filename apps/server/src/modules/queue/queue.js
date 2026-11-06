@@ -6,11 +6,18 @@ class VideoQueue {
   constructor() {
     this.items = [];
     this.isProcessing = false;
+    this.activeJobId = null;
   }
 
   async enqueue(videoId) {
-    this.items.push(videoId);
+    if (!this.items.includes(videoId)) {
+      this.items.push(videoId);
+    }
     this.processNext();
+  }
+
+  remove(videoId) {
+    this.items = this.items.filter((id) => id !== videoId);
   }
 
   async processNext() {
@@ -18,11 +25,13 @@ class VideoQueue {
     this.isProcessing = true;
 
     const videoId = this.items.shift();
+    this.activeJobId = videoId;
     try {
       await processVideoJob(videoId);
     } catch (err) {
       console.error('Queue job failed:', err);
     } finally {
+      this.activeJobId = null;
       this.isProcessing = false;
       this.processNext();
     }

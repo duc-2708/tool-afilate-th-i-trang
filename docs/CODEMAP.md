@@ -1,5 +1,10 @@
 # CODEMAP
 
+## docs
+docs/CODEMAP.md | bản đồ định vị code toàn dự án | không
+docs/API.md | danh sách và đặc tả endpoints api | không
+docs/PIPELINE_FLOW.md | kịch bản và checklist multi-agent flow | không
+
 ## packages/shared
 packages/shared/package.json | cấu hình package shared | zod
 packages/shared/src/index.js | export chung schemas và constants | schemas, constants
@@ -15,12 +20,12 @@ apps/server/src/app.js | ráp middleware và routes | express, routes, middlewar
 apps/server/src/config/env.js | đọc và validate biến môi trường | dotenv
 apps/server/src/db/connection.js | kết nối sqlite | node:sqlite, env.js
 apps/server/src/db/schema.sql | ddl bảng video và queue | không
-apps/server/src/middleware/upload.js | middleware upload ảnh | không
+apps/server/src/middleware/upload.js | middleware upload và kiểm tra ảnh | multer, env.js
 apps/server/src/middleware/error.js | middleware xử lý lỗi tập trung | không
 apps/server/src/middleware/rateLimit.js | middleware giới hạn tần suất gọi | không
 
 ## apps/server/modules/videos
-apps/server/src/modules/videos/videos.routes.js | định nghĩa endpoint videos | videos.controller
+apps/server/src/modules/videos/videos.routes.js | định nghĩa endpoint videos | videos.controller, upload.js
 apps/server/src/modules/videos/videos.controller.js | tiếp nhận request videos | videos.service
 apps/server/src/modules/videos/videos.service.js | nghiệp vụ quản lý video | videos.repo, queue
 apps/server/src/modules/videos/videos.repo.js | thao tác dữ liệu video sqlite | connection.js
@@ -56,24 +61,24 @@ apps/web/src/pages/ComingSoonPage.vue | trang tính năng sắp ra mắt | MainL
 
 ## apps/web/features/video-create
 apps/web/src/features/video-create/components/ModeToggle.vue | toggle text/image to video | không
-apps/web/src/features/video-create/components/ImageUpload.vue | upload và preview ảnh mẫu | không
+apps/web/src/features/video-create/components/ImageUpload.vue | upload và preview ảnh mẫu | api.js
 apps/web/src/features/video-create/components/PromptBox.vue | nhập prompt và mở mẫu gợi ý | không
 apps/web/src/features/video-create/components/CameraChips.vue | chip chọn góc máy camera | shared/camera
 apps/web/src/features/video-create/components/StyleGrid.vue | lưới chọn style thời trang | shared/styles
 apps/web/src/features/video-create/components/AspectDuration.vue | chọn tỷ lệ và thời lượng | shared/aspect
 apps/web/src/features/video-create/composables/useCreateVideo.js | state form và logic gửi tạo | api.js
-apps/web/src/features/video-create/api.js | gọi api server tạo video | shared/http
+apps/web/src/features/video-create/api.js | gọi api server tạo video và upload | shared/http
 
 ## apps/web/features/video-results
-apps/web/src/features/video-results/components/VideoCard.vue | hiển thị video card và status | formatDuration
+apps/web/src/features/video-results/components/VideoCard.vue | hiển thị video card và status | formatDuration, QueueBadge
 apps/web/src/features/video-results/components/VideoList.vue | danh sách các video card | VideoCard
 apps/web/src/features/video-results/components/QueueBadge.vue | badge trạng thái hàng đợi | không
-apps/web/src/features/video-results/composables/usePolling.js | định kỳ gọi api lấy tiến độ | store.js
+apps/web/src/features/video-results/composables/usePolling.js | định kỳ gọi api lấy tiến độ | store.js, api.js
 apps/web/src/features/video-results/store.js | state danh sách video + polling | api.js
-apps/web/src/features/video-results/api.js | gọi api lấy danh sách video | shared/http
+apps/web/src/features/video-results/api.js | gọi api lấy danh sách retry xóa video | shared/http
 
 ## apps/web/features/prompt-library
-apps/web/src/features/prompt-library/PromptLibraryModal.vue | popup chọn prompt thời trang | prompts.data.js
+apps/web/src/features/prompt-library/PromptLibraryModal.vue | popup chọn prompt thời trang | BaseModal, prompts.data.js
 apps/web/src/features/prompt-library/prompts.data.js | danh sách prompt mẫu thời trang | không
 
 ## apps/web/shared
