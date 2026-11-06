@@ -29,5 +29,21 @@ export const useVideoResultsStore = defineStore('videoResults', {
         this.videos[idx] = { ...this.videos[idx], ...updates };
       }
     },
+    async retryVideo(id) {
+      try {
+        const res = await videoResultsApi.retryVideo(id);
+        this.updateVideo(id, res);
+      } catch (err) {
+        this.error = err.message || 'Lỗi khi thử lại video';
+      }
+    },
+    async deleteVideo(id) {
+      try {
+        await videoResultsApi.deleteVideo(id);
+        this.videos = this.videos.filter((v) => v.id !== id);
+      } catch (err) {
+        this.error = err.message || 'Lỗi khi xóa video';
+      }
+    },
   },
 });

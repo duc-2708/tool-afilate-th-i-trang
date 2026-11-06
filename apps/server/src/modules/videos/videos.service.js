@@ -33,4 +33,22 @@ export const videosService = {
   async listVideos(query) {
     return videosRepo.list(query);
   },
+
+  async retryVideo(id) {
+    const video = await this.getVideoById(id);
+    const updated = videosRepo.update(id, {
+      status: 'pending',
+      progress: 0,
+      error_message: null,
+      remote_id: null,
+    });
+    await queue.enqueue(id);
+    return updated;
+  },
+
+  async deleteVideo(id) {
+    await this.getVideoById(id);
+    queue.remove(id);
+    return videosRepo.delete(id);
+  },
 };

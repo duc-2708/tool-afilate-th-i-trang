@@ -6,6 +6,7 @@ export class MockProvider extends VideoProviderInterface {
   constructor() {
     super();
     this.jobs = new Map();
+    this.totalDurationMs = 12000;
   }
 
   async generateVideo(params) {
@@ -21,15 +22,16 @@ export class MockProvider extends VideoProviderInterface {
   async checkStatus(remoteId) {
     const job = this.jobs.get(remoteId);
     if (!job) {
-      return { status: 'completed', progress: 100, videoUrl: 'https://example.com/mock.mp4' };
+      return { status: 'completed', progress: 100, videoUrl: '/storage/videos/sample.mp4' };
     }
 
     const elapsed = Date.now() - job.createdAt;
-    if (elapsed > 4000) {
-      return { status: 'completed', progress: 100, videoUrl: 'https://example.com/mock.mp4' };
+    if (elapsed >= this.totalDurationMs) {
+      this.jobs.delete(remoteId);
+      return { status: 'completed', progress: 100, videoUrl: '/storage/videos/sample.mp4' };
     }
 
-    const progress = Math.min(95, Math.floor((elapsed / 4000) * 100));
+    const progress = Math.min(95, Math.max(5, Math.floor((elapsed / this.totalDurationMs) * 100)));
     return { status: 'processing', progress };
   }
 }

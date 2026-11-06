@@ -4,12 +4,14 @@ import { onMounted, onUnmounted } from 'vue';
 import { useVideoResultsStore } from '../store.js';
 import { videoResultsApi } from '../api.js';
 
-export function usePolling(intervalMs = 3000) {
+export function usePolling(intervalMs = 2000) {
   const store = useVideoResultsStore();
   let timer = null;
 
   const poll = async () => {
     const processing = store.videos.filter((v) => ['pending', 'processing'].includes(v.status));
+    if (processing.length === 0) return;
+
     for (const v of processing) {
       try {
         const latest = await videoResultsApi.fetchVideoById(v.id);

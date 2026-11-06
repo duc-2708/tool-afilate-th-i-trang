@@ -6,13 +6,17 @@
         v-for="item in FASHION_PROMPT_SAMPLES"
         :key="item.id"
         class="sample-item"
-        @click="select(item.prompt)"
+        @click="select(item)"
       >
         <div class="sample-top">
           <span class="category">{{ item.category }}</span>
           <h4>{{ item.title }}</h4>
         </div>
         <p class="sample-prompt">{{ item.prompt }}</p>
+        <div class="sample-tags">
+          <span class="tag">Style: {{ item.style }}</span>
+          <span class="tag">Cam: {{ item.camera }}</span>
+        </div>
       </div>
     </div>
   </BaseModal>
@@ -27,8 +31,8 @@ defineProps({
 });
 const emit = defineEmits(['close', 'select']);
 
-const select = (prompt) => {
-  emit('select', prompt);
+const select = (item) => {
+  emit('select', item);
   emit('close');
 };
 </script>
@@ -43,9 +47,12 @@ const select = (prompt) => {
   background: #0f172a;
   border: 1px solid #334155;
   border-radius: 6px;
-  padding: 0.75rem;
+  padding: 0.85rem;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 .sample-item:hover {
   border-color: #0284c7;
@@ -55,7 +62,6 @@ const select = (prompt) => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.25rem;
 }
 .category {
   font-size: 0.7rem;
@@ -71,6 +77,18 @@ h4 {
 .sample-prompt {
   font-size: 0.8rem;
   color: #94a3b8;
-  line-height: 1.3;
+  line-height: 1.4;
+}
+.sample-tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.tag {
+  font-size: 0.7rem;
+  color: #64748b;
+  background: #1e293b;
+  padding: 1px 5px;
+  border-radius: 3px;
 }
 </style>

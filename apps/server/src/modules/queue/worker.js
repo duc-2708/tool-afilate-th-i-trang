@@ -8,7 +8,7 @@ export async function processVideoJob(videoId) {
   if (!video) return;
 
   const provider = getProvider();
-  videosRepo.update(videoId, { status: 'processing', progress: 10 });
+  videosRepo.update(videoId, { status: 'processing', progress: 5, error_message: null });
 
   try {
     const { remoteId } = await provider.generateVideo({
@@ -20,18 +20,22 @@ export async function processVideoJob(videoId) {
       duration: video.duration,
     });
 
-    videosRepo.update(videoId, { remote_id: remoteId, progress: 25 });
+    videosRepo.update(videoId, { remote_id: remoteId, progress: 10 });
 
     let isDone = false;
     while (!isDone) {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      const exists = videosRepo.findById(videoId);
+      if (!exists) break;
+
       const statusRes = await provider.checkStatus(remoteId);
 
       if (statusRes.status === 'completed') {
         videosRepo.update(videoId, {
           status: 'completed',
           progress: 100,
-          video_url: statusRes.videoUrl || 'https://example.com/result.mp4',
+          video_url: statusRes.videoUrl || '/storage/videos/sample.mp4',
         });
         isDone = true;
       } else if (statusRes.status === 'failed') {
@@ -42,7 +46,7 @@ export async function processVideoJob(videoId) {
         isDone = true;
       } else {
         videosRepo.update(videoId, {
-          progress: statusRes.progress || 50,
+          progress: statusRes.progress || 10,
         });
       }
     }

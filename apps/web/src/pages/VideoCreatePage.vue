@@ -4,12 +4,12 @@
     <div class="page-container">
       <header class="page-header">
         <h1>Tạo Video Thời Trang AI</h1>
-        <p>Biến ý tưởng và hình ảnh mẫu thành video catwalk sống động</p>
+        <p>Biến ý tưởng thiết kế và hình ảnh mẫu thành video catwalk sống động</p>
       </header>
 
       <div class="content-grid">
         <section class="form-section">
-          <form @submit.prevent="submit" class="create-form">
+          <form class="create-form" @submit.prevent="submit">
             <ModeToggle v-model="form.mode" />
             <ImageUpload v-if="form.mode === 'image'" v-model="form.imageUrl" />
             <PromptBox v-model="form.prompt" @open-library="showLibrary = true" />
@@ -20,20 +20,24 @@
             <div v-if="error" class="error-msg">{{ error }}</div>
 
             <BaseButton type="submit" :loading="loading" class="w-full">
-              ✨ Khởi tạo Video
+              ✨ Khởi tạo Video AI
             </BaseButton>
           </form>
         </section>
 
         <section class="results-section">
-          <VideoList :videos="videoStore.videos" />
+          <VideoList
+            :videos="videoStore.videos"
+            @retry="videoStore.retryVideo"
+            @delete="videoStore.deleteVideo"
+          />
         </section>
       </div>
 
       <PromptLibraryModal
         :is-open="showLibrary"
         @close="showLibrary = false"
-        @select="onSelectPrompt"
+        @select="applyTemplate"
       />
     </div>
   </MainLayout>
@@ -58,15 +62,11 @@ import { usePolling } from '../features/video-results/composables/usePolling.js'
 const showLibrary = ref(false);
 const videoStore = useVideoResultsStore();
 
-usePolling(2500);
+usePolling(2000);
 
-const { form, loading, error, submit } = useCreateVideo((newVideo) => {
+const { form, loading, error, submit, applyTemplate } = useCreateVideo((newVideo) => {
   videoStore.addVideo(newVideo);
 });
-
-const onSelectPrompt = (samplePrompt) => {
-  form.prompt = samplePrompt;
-};
 </script>
 
 <style scoped>
@@ -87,7 +87,7 @@ const onSelectPrompt = (samplePrompt) => {
 }
 .content-grid {
   display: grid;
-  grid-template-columns: 480px 1fr;
+  grid-template-columns: 460px 1fr;
   gap: 2rem;
   align-items: start;
 }
