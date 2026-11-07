@@ -11,4 +11,6 @@ videosRouter.post('/', videosController.create);
 videosRouter.get('/', videosController.list);
 videosRouter.get('/:id', videosController.getById);
 videosRouter.post('/:id/retry', videosController.retry);
+videosRouter.post('/:id/resume', videosController.resume);
+videosRouter.post('/:id/override', videosController.override);
 videosRouter.delete('/:id', videosController.delete);

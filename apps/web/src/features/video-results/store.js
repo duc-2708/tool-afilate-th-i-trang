@@ -1,4 +1,4 @@
-// @purpose: pinia store quản lý danh sách video và polling trạng thái
+// @purpose: pinia store quản lý danh sách video retry resume override và polling
 
 import { defineStore } from 'pinia';
 import { videoResultsApi } from './api.js';
@@ -35,6 +35,22 @@ export const useVideoResultsStore = defineStore('videoResults', {
         this.updateVideo(id, res);
       } catch (err) {
         this.error = err.message || 'Lỗi khi thử lại video';
+      }
+    },
+    async resumeVideo(id, payload = {}) {
+      try {
+        const res = await videoResultsApi.resumeVideo(id, payload);
+        this.updateVideo(id, res);
+      } catch (err) {
+        this.error = err.message || 'Lỗi khi tiếp tục video';
+      }
+    },
+    async overrideVideo(id) {
+      try {
+        const res = await videoResultsApi.overrideVideo(id);
+        this.updateVideo(id, res);
+      } catch (err) {
+        this.error = err.message || 'Lỗi khi duyệt ép buộc video';
       }
     },
     async deleteVideo(id) {

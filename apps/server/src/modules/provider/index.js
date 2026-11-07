@@ -2,7 +2,7 @@
 
 import { env } from '../../config/env.js';
 import { MockProvider } from './mock.provider.js';
-import { VeoProvider } from './veo.provider.js';
+import { VeoProvider, veoProvider } from './veo.provider.js';
 import { ReplicateProvider } from './replicate.provider.js';
 
 let activeProvider = null;
@@ -25,3 +25,5 @@ export function getProvider() {
 
   return activeProvider;
 }
+
+export { veoProvider };
