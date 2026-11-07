@@ -1,4 +1,4 @@
-// @purpose: quản lý trạng thái form tạo video và xử lý gửi dữ liệu
+// @purpose: quản lý trạng thái form tạo video thời trang đa tài nguyên
 
 import { ref, reactive } from 'vue';
 import { videoCreateApi } from '../api.js';
@@ -11,6 +11,9 @@ export function useCreateVideo(onSuccess) {
     mode: 'text',
     prompt: '',
     imageUrl: '',
+    modelImageUrl: '',
+    garmentImageUrl: '',
+    referenceVideoUrl: '',
     camera: 'static',
     style: 'studio_clean',
     aspect: '9:16',
@@ -28,18 +31,25 @@ export function useCreateVideo(onSuccess) {
       error.value = 'Vui lòng nhập mô tả video tối thiểu 3 ký tự';
       return;
     }
-    if (form.mode === 'image' && !form.imageUrl) {
-      error.value = 'Chế độ ảnh yêu cầu tải lên ảnh mẫu trước';
+    if (form.mode === 'image' && !form.modelImageUrl && !form.garmentImageUrl && !form.imageUrl) {
+      error.value = 'Vui lòng nạp ít nhất ảnh người mẫu hoặc ảnh trang phục';
       return;
     }
 
     loading.value = true;
     error.value = null;
     try {
-      const res = await videoCreateApi.createVideo(form);
+      const payload = {
+        ...form,
+        imageUrl: form.modelImageUrl || form.garmentImageUrl || form.imageUrl,
+      };
+      const res = await videoCreateApi.createVideo(payload);
       if (onSuccess) onSuccess(res);
       form.prompt = '';
       form.imageUrl = '';
+      form.modelImageUrl = '';
+      form.garmentImageUrl = '';
+      form.referenceVideoUrl = '';
     } catch (err) {
       error.value = err.message || 'Lỗi khi tạo video';
     } finally {

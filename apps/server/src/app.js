@@ -7,6 +7,7 @@ import { errorHandler } from './middleware/error.js';
 import { rateLimit } from './middleware/rateLimit.js';
 import { videosRouter } from './modules/videos/videos.routes.js';
 import { promptsRouter } from './modules/prompts/prompts.routes.js';
+import { settingsRouter } from './modules/settings/settings.routes.js';
 
 export function createApp() {
   const app = express();
@@ -31,6 +32,7 @@ export function createApp() {
   // Module routes
   app.use('/api/videos', videosRouter);
   app.use('/api/prompts', promptsRouter);
+  app.use('/api/settings', settingsRouter);
 
   // Error handling middleware
   app.use(errorHandler);

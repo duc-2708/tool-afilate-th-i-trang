@@ -16,6 +16,7 @@ const label = computed(() => {
   switch (props.status) {
     case 'pending': return 'Đang chờ';
     case 'processing': return 'Đang sinh video';
+    case 'paused_needs_action': return 'Tạm dừng cần xử lý';
     case 'completed': return 'Hoàn thành';
     case 'failed': return 'Thất bại';
     default: return props.status;
@@ -32,6 +33,7 @@ const label = computed(() => {
 }
 .pending { background: #64748b; color: #fff; }
 .processing { background: #0284c7; color: #fff; }
+.paused_needs_action { background: #d97706; color: #fff; }
 .completed { background: #16a34a; color: #fff; }
 .failed { background: #dc2626; color: #fff; }
 </style>

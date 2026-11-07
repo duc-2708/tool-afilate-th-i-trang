@@ -22,6 +22,8 @@
         :key="video.id"
         :video="video"
         @retry="$emit('retry', $event)"
+        @resume="$emit('resume', $event)"
+        @override="$emit('override', $event)"
         @delete="$emit('delete', $event)"
       />
     </div>
@@ -35,7 +37,7 @@ import VideoCard from './VideoCard.vue';
 const props = defineProps({
   videos: { type: Array, default: () => [] },
 });
-defineEmits(['retry', 'delete']);
+defineEmits(['retry', 'delete', 'resume', 'override']);
 
 const activeCount = computed(() => {
   return props.videos.filter((v) => ['pending', 'processing'].includes(v.status)).length;

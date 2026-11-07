@@ -8,6 +8,7 @@
     "./constants/camera": "./src/constants/camera.js",
     "./constants/styles": "./src/constants/styles.js",
     "./constants/aspect": "./src/constants/aspect.js",
+    "./constants/pipeline": "./src/constants/pipeline.js",
     "./schemas/video": "./src/schemas/video.schema.js"
   },
   "dependencies": {

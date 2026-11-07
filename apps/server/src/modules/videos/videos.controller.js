@@ -62,6 +62,26 @@ export const videosController = {
     }
   },
 
+  async resume(req, res, next) {
+    try {
+      const { id } = videoIdSchema.parse(req.params);
+      const video = await videosService.resumeVideo(id, req.body);
+      res.json({ success: true, message: 'Đã tiếp tục tác vụ thành công', data: video });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async override(req, res, next) {
+    try {
+      const { id } = videoIdSchema.parse(req.params);
+      const video = await videosService.overrideVideo(id);
+      res.json({ success: true, message: 'Đã duyệt ép buộc tác vụ thành công', data: video });
+    } catch (err) {
+      next(err);
+    }
+  },
+
   upload(req, res, next) {
     try {
       if (!req.file) {
